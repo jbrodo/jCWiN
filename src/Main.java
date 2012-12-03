@@ -17,7 +17,8 @@ public class Main {
 		String url;
 		String html;
 		String aSlash = "<a\\b[^>]*href=\"[^>]*>(.*?)</a>";
-		Pattern h4 = Pattern.compile("<h4\\b[^>]*class=\"[^>]*>(.*?)"+aSlash+"</h4>");
+		//Pattern h4 = Pattern.compile("<h4\\b[^>]*class=\"[^>]*>(.*?)"+aSlash+"</h4>");
+		Pattern h4 = Pattern.compile("<h4\\b[^>]*class=\"[^>]*>(.*?)</h4>");
 		Pattern href = Pattern.compile("href=\"[^>]*\"\\s+");
 		Pattern title = Pattern.compile("title=\"[^>]*\"");
 		int i=0;
