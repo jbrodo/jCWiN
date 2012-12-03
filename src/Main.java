@@ -8,11 +8,8 @@ import java.util.regex.Pattern;
 
 public class Main {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
 		String alfabeto[]={"A","B","C","D","E","F","G","H","I","L","M","N","O","P","Q"};
 		
 		ArrayList<String> listaLinkRicette = new ArrayList<String>();
