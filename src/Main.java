@@ -1,22 +1,84 @@
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
+	public static String home = "http://www.giallozafferano.it";
+	public static PrintWriter outputStream;
 
-	public static void main(String[] args) {
+	public static void main(String [] args){
+		String htmlp;
+		Pattern script = Pattern.compile("<script\\b[^>]*type=\"text/javascript\"[^>]*>(.*?)</script>");
+		//<script: <script type="text/javascript"><!--var IDRicetta = 412; var numComTot = 6; var contCom = 0;--></script>
+		Pattern javaScript = Pattern.compile("<!*(.*?)var\\sIDRicetta*[^>]*(.*?);");
+
+		htmlp=ScannerHTML.getHTML("http://www.giallozafferano.it/ricetta/Alici-marinate");
+		System.out.println(htmlp);
+
+		Searcher src= new Searcher(new BFS(home,151));
 		
+		ArrayList<String> ricette = src.findReceipt();
+		
+		int i=0;
+		for(String s :ricette){
+			System.out.println((i++)+") "+s);
+			apriScritturaFile("ricette/"+String.valueOf(i)+".html");
+			write(s);
+			chiudiScritturaFile();
+		}
+		System.out.println(ricette.size());
+
+	}
+	
+	
+
+	public static void apriScritturaFile(final String output) {
+		try {
+			outputStream =new PrintWriter(new FileOutputStream(output));
+			System.out.println("Ho aperto il file in scrittura");
+		} catch (final FileNotFoundException e) {
+			System.err.println("Errore: " + e.getMessage());
+		}
+	}
+
+	public static void apriScritturaAppendFile(final String output) {
+		try {
+			outputStream =new PrintWriter(new FileOutputStream(output, true));
+			System.out.println("Ho aperto il file in scrittura");
+		} catch (final FileNotFoundException e) {
+			System.err.println("Errore: " + e.getMessage());
+		}
+	}
+	
+	public static void chiudiScritturaFile() {
+		outputStream.close();
+	}
+
+	public static void scrivi(final String s) {
+		outputStream.println(s);
+	}
+
+	public static void write(final String s) {
+		outputStream.write(s);
+	}
+	
+	public static void main2(String[] args) {
+
 		String alfabeto[]={"A","B","C","D","E","F","G","H","I","L","M","N","O","P","Q"};
-		
+
 		ArrayList<String> listaLinkRicette = new ArrayList<String>();
-		
 		String url;
 		String html;
-		String aSlash = "<a\\b[^>]*href=\"[^>]*>(.*?)</a>";
+		//String aSlash = "<a\\b[^>]*href=\"[^>]*>(.*?)</a>";
 		//Pattern h4 = Pattern.compile("<h4\\b[^>]*class=\"[^>]*>(.*?)"+aSlash+"</h4>");
 		Pattern h4 = Pattern.compile("<h4\\b[^>]*class=\"[^>]*>(.*?)</h4>");
 		Pattern href = Pattern.compile("href=\"[^>]*\"\\s+");
@@ -25,7 +87,7 @@ public class Main {
 		String sito = "http://www.giallozafferano.it";
 		for(String l:alfabeto){
 			url=sito+"/Ricette-A-Z/lettera-"+l;
-			html = getHTML(url);
+			html = ScannerHTML.getHTML(url);
 			System.out.println(url);
 			System.out.println(html);
 			Matcher mh4 = h4.matcher(html);
@@ -36,9 +98,7 @@ public class Main {
 					//ci sono degli spazzi finali
 					System.out.println(i+") href: "+mhref.group());
 					String s[]=mhref.group().split("\"");
-					for(String h:s){
-						System.out.println(h);
-					}
+					System.out.println(s[1]);
 					listaLinkRicette.add(s[1]);
 				}
 				Matcher mtitle = title.matcher(mh4.group());
@@ -53,32 +113,12 @@ public class Main {
 		for(String l:listaLinkRicette){
 			url=sito+l;
 			System.out.println(i+"/"+numeroRicette+") "+url);
-			html=getHTML(url);
+			html=ScannerHTML.getHTML(url);
 			System.out.println(i+"/"+numeroRicette+") "+html);
 			i++;
 		}
 	}
 
-	public static String getHTML(String urlToRead) {
-		URL url;
-		HttpURLConnection conn;
-		BufferedReader rd;
-		String line;
-		String result = "";
-		try {
-			url = new URL(urlToRead);
-			conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("GET");
-			rd = new BufferedReader(
-					new InputStreamReader(conn.getInputStream()));
-			while ((line = rd.readLine()) != null) {
-				result += line;
-			}
-			rd.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
+	
 }
 
