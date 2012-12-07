@@ -1,9 +1,10 @@
+package it.jcwin.crawling;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-
-public class BFS implements IStrategy {
+public class BFS implements CrawlingAlgorithm {
 	private String home;
 	private int numeroMaxRicette;
 	

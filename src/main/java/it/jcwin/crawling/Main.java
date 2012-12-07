@@ -1,13 +1,9 @@
-import java.io.BufferedReader;
+package it.jcwin.crawling;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,9 +13,9 @@ public class Main {
 
 	public static void main(String [] args){
 		String htmlp;
-		Pattern script = Pattern.compile("<script\\b[^>]*type=\"text/javascript\"[^>]*>(.*?)</script>");
+		//Pattern script = Pattern.compile("<script\\b[^>]*type=\"text/javascript\"[^>]*>(.*?)</script>");
 		//<script: <script type="text/javascript"><!--var IDRicetta = 412; var numComTot = 6; var contCom = 0;--></script>
-		Pattern javaScript = Pattern.compile("<!*(.*?)var\\sIDRicetta*[^>]*(.*?);");
+		//Pattern javaScript = Pattern.compile("<!*(.*?)var\\sIDRicetta*[^>]*(.*?);");
 
 		htmlp=ScannerHTML.getHTML("http://www.giallozafferano.it/ricetta/Alici-marinate");
 		System.out.println(htmlp);
@@ -36,10 +32,7 @@ public class Main {
 			chiudiScritturaFile();
 		}
 		System.out.println(ricette.size());
-
 	}
-	
-	
 
 	public static void apriScritturaFile(final String output) {
 		try {
@@ -118,7 +111,4 @@ public class Main {
 			i++;
 		}
 	}
-
-	
 }
-
