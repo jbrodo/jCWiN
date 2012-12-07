@@ -37,18 +37,33 @@ public class Parser {
 	}
 	
 	private String getPrepTime(Document doc) {
-		Element prepTime = doc.getElementsByClass("preptime").get(0);
-		return prepTime.ownText();
+		Elements prepTime = doc.getElementsByClass("preptime");
+
+		if(prepTime.size() == 0) {
+			return null;
+		}
+		
+		return prepTime.get(0).ownText();
 	}
 	
 	private String getCookTime(Document doc) {
-		Element cooktime = doc.getElementsByClass("cooktime").get(0);
-		return cooktime.ownText();
+		Elements cooktime = doc.getElementsByClass("cooktime");
+		
+		if(cooktime.size() == 0) {
+			return null;
+		}
+		
+		return cooktime.get(0).ownText();
 	}
 	
 	private String getDifficultyOfPreparation(Document doc) {
-		Element difficultyOfPreparation = doc.getElementsByClass("difficolta").get(0);
-		return difficultyOfPreparation.ownText();
+		Elements difficultyOfPreparation = doc.getElementsByClass("difficolta");
+
+		if(difficultyOfPreparation.size() == 0) {
+			return null;
+		}
+		
+		return difficultyOfPreparation.get(0).ownText();
 	}
 	
 	private String getDoses(Document doc) {
@@ -128,15 +143,21 @@ public class Parser {
 		//Add document to index
 		org.apache.lucene.document.Document document = new org.apache.lucene.document.Document();
 		
-		Field fprepTime = new StringField("prepTime", prepTime, Field.Store.YES);
-	    document.add(fprepTime);
+		if(prepTime != null) {
+			Field fprepTime = new StringField("prepTime", prepTime, Field.Store.YES);
+		    document.add(fprepTime);
+		}
 	    
-	    Field fcookTime = new StringField("cookTime", cookTime, Field.Store.YES);
-	    document.add(fcookTime);
+	    if(cookTime != null) {
+		    Field fcookTime = new StringField("cookTime", cookTime, Field.Store.YES);
+		    document.add(fcookTime);
+	    }
 	    
-	    Field fdifficultyOfPreparation = new StringField("difficultyOfPreparation", difficultyOfPreparation, Field.Store.YES);
-	    document.add(fdifficultyOfPreparation);
-	    
+	    if(difficultyOfPreparation != null) {
+		    Field fdifficultyOfPreparation = new StringField("difficultyOfPreparation", difficultyOfPreparation, Field.Store.YES);
+		    document.add(fdifficultyOfPreparation);
+	    }
+		    
 	    if(doses != null) {
 	    	Field fdoses = new StringField("doses", doses, Field.Store.YES);
 	    	document.add(fdoses);

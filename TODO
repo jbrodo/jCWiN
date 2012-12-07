@@ -1,6 +1,4 @@
-- Fare menù 
-	- indexing con inserimento del dato MaxRicette
-	- searching query
-	
 - Mettere anche DFS e vedere se esistono altri tipi
 - Ritornare <link, html> da findReceipt()
+- Fare la parte di searching query
+- Manca dai documenti ingredientsAndAmount e categorie
