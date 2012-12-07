@@ -52,9 +52,19 @@ public class Parser {
 	}
 	
 	private String getDoses(Document doc) {
-		Element spanDoses = doc.getElementsByClass("dosixpers").get(0);
-		Element doses = spanDoses.getElementsByClass("yield").get(0);
-		return doses.ownText();
+		Elements spanDoses = doc.getElementsByClass("dosixpers");
+		
+		if(spanDoses.size() == 0) {
+			return null;
+		}
+		
+		Elements doses = spanDoses.get(0).getElementsByClass("yield");
+		
+		if(doses.size() == 0) {
+			return null;
+		}
+		
+		return doses.get(0).ownText();
 	}
 	
 	private String getCost(Document doc) {
@@ -85,7 +95,7 @@ public class Parser {
 		return categories;
 	}
 	
-	public void addDocument(Document doc) throws IOException {
+	public void parseDocument(Document doc) throws IOException {
 		//prendo gli Ingredienti e le quantita
 		HashMap<String, String> ingredientsAndAmount = getIngredientsAndAmount(doc); 
 		
@@ -127,8 +137,10 @@ public class Parser {
 	    Field fdifficultyOfPreparation = new StringField("difficultyOfPreparation", difficultyOfPreparation, Field.Store.YES);
 	    document.add(fdifficultyOfPreparation);
 	    
-	    Field fdoses = new StringField("doses", doses, Field.Store.YES);
-	    document.add(fdoses);
+	    if(doses != null) {
+	    	Field fdoses = new StringField("doses", doses, Field.Store.YES);
+	    	document.add(fdoses);
+	    }
 	    
 	    if(cost != null) {
 	    	Field fcost = new StringField("cost", cost, Field.Store.YES);

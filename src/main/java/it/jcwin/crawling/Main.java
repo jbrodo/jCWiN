@@ -20,7 +20,7 @@ public class Main {
 		htmlp=ScannerHTML.getHTML("http://www.giallozafferano.it/ricetta/Alici-marinate");
 		System.out.println(htmlp);
 
-		Searcher src= new Searcher(new BFS(home,151));
+		Crawler src= new Crawler(new BFS(home,151));
 		
 		ArrayList<String> ricette = src.findReceipt();
 		
