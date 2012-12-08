@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,13 +23,13 @@ public class Main {
 
 		Crawler src= new Crawler(new BFS(home,151));
 		
-		ArrayList<String> ricette = src.findReceipt();
+		HashMap<String,String> ricette = src.findReceipt();
 		
 		int i=0;
-		for(String s :ricette){
-			System.out.println((i++)+") "+s);
+		for(String s :ricette.keySet()){
+			System.out.println((i++)+") "+ricette.get(s));
 			apriScritturaFile("ricette/"+String.valueOf(i)+".html");
-			write(s);
+			write(ricette.get(s));
 			chiudiScritturaFile();
 		}
 		System.out.println(ricette.size());

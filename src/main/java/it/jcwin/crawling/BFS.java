@@ -13,10 +13,10 @@ public class BFS implements CrawlingAlgorithm {
 		this.numeroMaxRicette=numeroMaxRicette;
 	}
 
-	public ArrayList<String> find() {
+	public HashMap<String,String> find() {
 		HashMap<String,ArrayList<String>> pagine = new HashMap<String,ArrayList<String>>();
 		HashMap<String,String> pagineVisitate = new HashMap<String,String>();
-		ArrayList<String> ricette = new ArrayList<String>();
+		HashMap<String,String> ricette = new HashMap<String,String>();
 
 		String htmlhome = ScannerHTML.getHTML(home);
 		System.out.println(home);
@@ -28,12 +28,11 @@ public class BFS implements CrawlingAlgorithm {
 			if(!pagineVisitate.containsKey(s)) pagineVisitate.put(s,"g");
 			String r = ScannerHTML.getHTML(s);
 			System.out.println((++j)+"/"+pagine.get(home).size()+" - "+ScannerHTML.isRicetta(r)+" - "+s);
-			if(ScannerHTML.isRicetta(r) && !ricette.contains(r)) ricette.add(r);
+			if(ScannerHTML.isRicetta(r) && !ricette.keySet().contains(s)) ricette.put(s,r);
 		}
 		pagineVisitate.put(home,"b");
 		System.out.println(pagine.get(home).size());
 
-		//
 		int k=0;
 		
 		while(!ScannerHTML.isAllBlack(pagineVisitate)&&ricette.size()<numeroMaxRicette){
@@ -53,7 +52,7 @@ public class BFS implements CrawlingAlgorithm {
 						if(!pagineVisitate.containsKey(s1)) copia.put(s1,"g");
 						String r = ScannerHTML.getHTML(s1);
 						System.out.println((++j)+"/"+pagine.get(s).size()+" - "+s+" - "+ScannerHTML.isRicetta(r)+" - "+s1);
-						if(ScannerHTML.isRicetta(r) && !ricette.contains(r)) ricette.add(r);
+						if(ScannerHTML.isRicetta(r) && !ricette.keySet().contains(s1)) ricette.put(s1,r);
 					}
 				}
 				copia.put(s,"b");
@@ -65,5 +64,4 @@ public class BFS implements CrawlingAlgorithm {
 		}
 		return ricette;
 	}
-
 }

@@ -1,6 +1,7 @@
 package it.jcwin.crawling;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Crawler {
 	private CrawlingAlgorithm s;
@@ -8,7 +9,7 @@ public class Crawler {
 	public Crawler(CrawlingAlgorithm s){
 		this.s=s;
 	}
-	public ArrayList<String> findReceipt(){
+	public HashMap<String,String> findReceipt(){
 		return s.find();
 	}
 }
