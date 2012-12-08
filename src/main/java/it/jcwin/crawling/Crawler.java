@@ -1,6 +1,5 @@
 package it.jcwin.crawling;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Crawler {

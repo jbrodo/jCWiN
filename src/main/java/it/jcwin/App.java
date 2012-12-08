@@ -5,7 +5,6 @@ import it.jcwin.crawling.Crawler;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.jsoup.Jsoup;
